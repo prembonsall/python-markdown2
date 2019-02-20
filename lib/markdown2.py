@@ -1048,10 +1048,13 @@ class Markdown(object):
                 (?:(?<=\n\n)|\A\n?)             # leading blank line
 
                 ^[ ]{0,%d}                      # allowed whitespace
-                (.*[|].*)  \n                   # $1: header row (at least one pipe)
+
+                (?:([+].*)|\A\n?)?              # $1: optional caption
+
+                (.*[|].*)  \n                   # $2: header row (at least one pipe)
 
                 ^[ ]{0,%d}                      # allowed whitespace
-                (                               # $2: underline row
+                (                               # $3: underline row
                     # underline row with leading bar
                     (?:  \|\ *:?-+:?\ *  )+  \|?  \n
                     |
@@ -1059,7 +1062,7 @@ class Markdown(object):
                     (?:  \ *:?-+:?\ *\|  )+  (?:  \ *:?-+:?\ *  )?  \n
                 )
 
-                (                               # $3: data rows
+                (                               # $4: data rows
                     (?:
                         ^[ ]{0,%d}(?!\ )         # ensure line begins with 0 to less_than_tab spaces
                         .*\|.*  \n
